@@ -7,19 +7,18 @@ if [ "$#" -ne 2 ]; then
     exit 1
 fi
 
-# Assigning arguments to variables
+# Assign arguments to variables
 writefile=$1
 writestr=$2
 
 # Create the directory path if it doesn't exist
-mkdir -p "$(dirname "$writefile")"
+mkdir -p $(dirname "$writefile")
 
 # Attempt to create or overwrite the file with writestr
-echo "$writestr" > "$writefile"
-
-# Check if the file was successfully created
-if [ $? -ne 0 ]; then
-    echo "Error: Could not create file '$writefile'."
+if [ -w $(dirname "$writefile") ]; then
+    echo "$writestr" > "$writefile"
+else
+    echo "Error: No write permissions for ${writefile}."
     exit 1
 fi
 
